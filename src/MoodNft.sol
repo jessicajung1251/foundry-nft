@@ -57,19 +57,23 @@ contract MoodNft is ERC721 {
         }
         string memory imageURI = s_happySvgImageUri;
 
-        if (s_tokenIdToMood[tokenId] == Mood.HAPPY){
+        if (s_tokenIdToMood[tokenId] == Mood.HAPPY) {
             imageURI = s_happySvgImageUri;
-        }else{
+        } else {
             imageURI = s_sadSvgImageUri;
         }
         console.log("imageURI is:", imageURI);
+
+        // this constructs the token URI for an NFT, which is a string that points to a JSON file containing metadata about the NFT
+        // imageURI is the URI for the image of the NFT (data:image/svg+xml;base64) wrapped around the base64 encoded image (data:application/json;base64)
+        // the final results is a string that starts wtih "data:application/json;base64," followed by the base64 encoded JSON metadata string
 
         // first we concatenate the NFT metadata string using abi.encodepacked and turned it into a bytes object and encoded that bytes object into base64, combined that with a base uri, and turned that whole thing into a string and returned it
         return string(
             abi.encodePacked(
                 _baseURI(), // "data:application/json;base64,"
                 Base64.encode(
-                    bytes(
+                    bytes( // redundant bytes() call here, but it's fine
                         abi.encodePacked(
                             '{"name":"',
                             name(), // You can add whatever name here
@@ -82,9 +86,8 @@ contract MoodNft is ERC721 {
                 )
             )
         );
-    
     }
- 
+
     // getter functions
 
     function getHappySVG() public view returns (string memory) {

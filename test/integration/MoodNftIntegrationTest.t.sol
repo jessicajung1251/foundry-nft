@@ -30,6 +30,4 @@ contract MoodNftIntegrationTest is Test {
         moodNft.mintNft();
         console.log(moodNft.tokenURI(0));
     }
-
-
 }
